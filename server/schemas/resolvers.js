@@ -43,6 +43,17 @@ const resolvers = {
       return updatedUser;
     },
 
+    deleteBook: async (parent, {input}, context) => {
+      console.log(input)
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: context.user._id },
+        { $pull: { savedBooks: {bookId: input.bookId}}},
+        { new: true }
+      );
+
+      return updatedUser;
+    },
+
     loginUser: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
