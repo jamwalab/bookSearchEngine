@@ -11,12 +11,15 @@ const db = require('./config/connection');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const { authMiddleware } = require('./utils/auth');
+let server = "";
 
 // create a new Apollo server and pass in our schema data
 async function startServer() {
-  const server = new ApolloServer({
+  server = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers,
+    context: authMiddleware
   });
   await server.start();
   // integrate our Apollo server with the Express application as middleware
