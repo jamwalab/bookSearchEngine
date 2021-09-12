@@ -1,18 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
 
-import { getMe, deleteBook } from '../utils/API';
+//import { getMe, deleteBook } from '../utils/API';
+import { useQuery, useMutation } from '@apollo/client';
+import {QUERY_ME} from '../utils/queries'
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
-  const [userData, setUserData] = useState({});
+  const {loading, data} = useQuery(QUERY_ME);
 
+  const userData = data?.getMe || {};
+  //const user = data?.getMe || {};
+  console.log(loading, userData)
+  //setUserData(...user)
+ 
+
+  if (!userData?.username) {
+    return (
+      <h4>
+        You need to be logged in to see this page. Use the navigation links above to sign up or log in!
+      </h4>
+    );
+  }
   // use this to determine if `useEffect()` hook needs to run again
-  const userDataLength = Object.keys(userData).length;
+ // const userDataLength = Object.keys(userData).length;
 
-  useEffect(() => {
-    const getUserData = async () => {
+  /*useEffect(async () => {
+    //const getUserData = async () => {
       try {
         const token = Auth.loggedIn() ? Auth.getToken() : null;
 
@@ -20,25 +35,27 @@ const SavedBooks = () => {
           return false;
         }
 
-        const response = await getMe(token);
+        //const response = await getMe(token);
+        const {data} = await useQuery(QUERY_ME);
 
-        if (!response.ok) {
+        if (!data) {
           throw new Error('something went wrong!');
         }
 
-        const user = await response.json();
-        setUserData(user);
+        //const user = await response.json();
+        console.log(data)
+        setUserData(data);
       } catch (err) {
         console.error(err);
       }
-    };
+    //};
 
     getUserData();
-  }, [userDataLength]);
+  }, [userDataLength]);*/
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
-    const token = Auth.loggedIn() ? Auth.getToken() : null;
+    /*const token = Auth.loggedIn() ? Auth.getToken() : null;
 
     if (!token) {
       return false;
@@ -57,14 +74,14 @@ const SavedBooks = () => {
       removeBookId(bookId);
     } catch (err) {
       console.error(err);
-    }
+    }*/
   };
 
   // if data isn't here yet, say so
-  if (!userDataLength) {
+  if (loading) {
     return <h2>LOADING...</h2>;
   }
-
+  console.log(userData)
   return (
     <>
       <Jumbotron fluid className='text-light bg-dark'>

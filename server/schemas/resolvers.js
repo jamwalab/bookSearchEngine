@@ -13,7 +13,7 @@ const resolvers = {
       return User.findOne({params})
     },
 
-    me: async(parent, args, context) => {
+    getMe: async(parent, args, context) => {
       if (context.user) {
         const userData = await User.findOne({ _id: context.user._id })
           .select('-__v -password')
@@ -32,10 +32,10 @@ const resolvers = {
       return { token, user };
     },
 
-    addBook: async (parent, {userId, input}) => {
+    addBook: async (parent, {input}, context) => {
       console.log(input)
       const updatedUser = await User.findOneAndUpdate(
-        { _id: userId },
+        { _id: context.user._id },
         { $push: { savedBooks: {...input}}},
         { new: true }
       );
@@ -43,7 +43,7 @@ const resolvers = {
       return updatedUser;
     },
 
-    login: async (parent, { email, password }) => {
+    loginUser: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
       if (!user) {
