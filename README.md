@@ -3,8 +3,6 @@
 ## Description
 Helps user search for books online and have an option to save these books. User can see their saved books and delete them. 
 
-![Preview](./client/src/assets/homepage.png)
-
 ## Table of Contents
 * [License](#license)
 * [Installation](#installation)
@@ -18,6 +16,8 @@ Helps user search for books online and have an option to save these books. User 
 No installation required. 
 
 [Link to the application](https://pure-taiga-78203.herokuapp.com/)
+
+![Preview](./client/src/assets/homepage.png)
 
 ## Test
 Testing options are not available at the moment
