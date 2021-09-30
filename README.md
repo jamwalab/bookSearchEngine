@@ -3,6 +3,8 @@
 ## Description
 Helps user search for books online and have an option to save these books. User can see their saved books and delete them. 
 
+![Preview](./client/src/assets/homepage.png)
+
 ## Table of Contents
 * [License](#license)
 * [Installation](#installation)
